@@ -28,7 +28,7 @@ export const getStudents = async (req, res) => {
   }
 };
 
-// Update Student
+// Update Student — ObjectId validated by route middleware before this runs
 export const updateStudent = async (req, res) => {
   try {
     const student = await Student.findOneAndUpdate(
@@ -50,7 +50,7 @@ export const updateStudent = async (req, res) => {
   }
 };
 
-// Delete Student (soft delete)
+// Delete Student (soft delete) — ObjectId validated by route middleware
 export const deleteStudent = async (req, res) => {
   try {
     const student = await Student.findOneAndUpdate(
@@ -67,6 +67,38 @@ export const deleteStudent = async (req, res) => {
     }
 
     res.json({ message: "Student deactivated" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// ObjectId validated by route middleware before this runs
+export const uploadStudentPhoto = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Photo file is required" });
+    }
+
+    const photoPath = `/uploads/students/${req.file.filename}`;
+
+    const student = await Student.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        schoolId: req.schoolId,
+        active: true,
+      },
+      { photo: photoPath },
+      { new: true }
+    );
+
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    res.json({
+      message: "Student photo uploaded successfully",
+      photo: student.photo,
+    });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }

@@ -1,21 +1,20 @@
 import express from "express";
 import {
-  createStudent,
-  getStudents,
-  updateStudent,
-  deleteStudent,
-  uploadStudentPhoto,
-} from "../controllers/student.controller.js";
+  createSubject,
+  getSubjects,
+  getSubjectById,
+  updateSubject,
+  deleteSubject,
+} from "../controllers/subject.controller.js";
 import authMiddleware from "../middleware/auth.middleware.js";
 import schoolMiddleware from "../middleware/school.middleware.js";
 import roleMiddleware from "../middleware/role.middleware.js";
 import validate from "../middleware/validate.middleware.js";
 import validateObjectIdParam from "../middleware/validateObjectId.middleware.js";
-import { createStudentSchema } from "../validations/student.validation.js";
 import {
-  uploadStudentPhoto as uploadPhoto,
-  handleUpload,
-} from "../middleware/upload.middleware.js";
+  createSubjectSchema,
+  updateSubjectSchema,
+} from "../validations/subject.validation.js";
 
 const router = express.Router();
 
@@ -23,35 +22,34 @@ router.post(
   "/",
   authMiddleware,
   schoolMiddleware,
-  roleMiddleware(["school_admin", "clerk"]),
-  validate(createStudentSchema),
-  createStudent
+  roleMiddleware(["school_admin"]),
+  validate(createSubjectSchema),
+  createSubject
 );
 
 router.get(
   "/",
   authMiddleware,
   schoolMiddleware,
-  getStudents
+  getSubjects
+);
+
+router.get(
+  "/:id",
+  authMiddleware,
+  schoolMiddleware,
+  validateObjectIdParam("id", "subject"),
+  getSubjectById
 );
 
 router.put(
   "/:id",
   authMiddleware,
   schoolMiddleware,
-  roleMiddleware(["school_admin", "clerk"]),
-  validateObjectIdParam("id", "student"),
-  updateStudent
-);
-
-router.post(
-  "/:id/photo",
-  authMiddleware,
-  schoolMiddleware,
-  roleMiddleware(["school_admin", "clerk"]),
-  validateObjectIdParam("id", "student"),
-  handleUpload(uploadPhoto),
-  uploadStudentPhoto
+  roleMiddleware(["school_admin"]),
+  validateObjectIdParam("id", "subject"),
+  validate(updateSubjectSchema),
+  updateSubject
 );
 
 router.delete(
@@ -59,9 +57,8 @@ router.delete(
   authMiddleware,
   schoolMiddleware,
   roleMiddleware(["school_admin"]),
-  validateObjectIdParam("id", "student"),
-  deleteStudent
+  validateObjectIdParam("id", "subject"),
+  deleteSubject
 );
-
 
 export default router;

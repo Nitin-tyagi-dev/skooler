@@ -31,6 +31,11 @@ const schoolSchema = new mongoose.Schema(
       default: [],
     },
 
+    logo: {
+      type: String,
+      default: "",
+    },
+
     active: {
       type: Boolean,
       default: true,
