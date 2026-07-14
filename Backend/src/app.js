@@ -16,6 +16,7 @@ import feeRoutes from "./routes/fee.routes.js";
 import resultRoutes from "./routes/result.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 import schoolRoutes from "./routes/school.routes.js";
+import messageRoutes from "./routes/message.routes.js";
 import { notFound, errorHandler } from "./middleware/error.middleware.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -39,6 +40,7 @@ app.use("/api/fees", feeRoutes);
 app.use("/api/results", resultRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/school", schoolRoutes);
+app.use("/api/messages", messageRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "Skooler backend running" });
