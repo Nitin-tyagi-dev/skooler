@@ -11,6 +11,7 @@ import Attendance from "./pages/Attendance";
 import Fees from "./pages/Fees";
 import Results from "./pages/Results";
 import Settings from "./pages/Settings";
+import Messages from "./pages/Messages";
 import { RefreshCw, ShieldAlert } from "lucide-react";
 import Button from "./components/UI/Button";
 
@@ -162,6 +163,18 @@ const App = () => {
                 <RoleGuard allowedRoles={["school_admin"]}>
                   <Layout>
                     <Settings />
+                  </Layout>
+                </RoleGuard>
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/messages"
+            element={
+              <AuthGuard>
+                <RoleGuard allowedRoles={["school_admin", "teacher"]}>
+                  <Layout>
+                    <Messages />
                   </Layout>
                 </RoleGuard>
               </AuthGuard>

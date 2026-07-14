@@ -15,6 +15,7 @@ import {
   Menu,
   X,
   Book,
+  MessageSquare,
 } from "lucide-react";
 
 const Layout = ({ children }) => {
@@ -66,6 +67,12 @@ const Layout = ({ children }) => {
       path: "/results",
       name: "Examinations",
       icon: Award,
+      roles: ["school_admin", "teacher"],
+    },
+    {
+      path: "/messages",
+      name: "Messages",
+      icon: MessageSquare,
       roles: ["school_admin", "teacher"],
     },
     {

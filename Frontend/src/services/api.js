@@ -159,4 +159,12 @@ export const api = {
     getProfile: () => api.get("/school"),
     uploadLogo: (formData) => api.put("/school/logo", formData, true),
   },
+
+  // Messages endpoints
+  messages: {
+    getContacts: () => api.get("/messages/contacts"),
+    getChat: (contactId) => api.get(`/messages/${contactId}`),
+    send: (data) => api.post("/messages", data),
+    markRead: (contactId) => api.put(`/messages/${contactId}/read`, {}),
+  },
 };
